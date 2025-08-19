@@ -1,83 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Filter, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
-import { supabase, Product, Category, isSupabaseConfigured } from '../lib/supabase';
-import { mockProducts, mockCategories } from '../lib/mockData';
+import React, { useState } from 'react';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../contexts/StoreContext';
 
 export const Products: React.FC = () => {
-  const { settings } = useStore();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showFilters, setShowFilters] = useState(false);
-  
-  const [filters, setFilters] = useState({
-    search: '',
-    minPrice: '',
-    maxPrice: '',
-    sortBy: 'newest',
-  });
+  const { products, settings, categories } = useStore();
+  const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, []);
+  // Filtro de busca e categoria
+  const filteredProducts = products
+    .filter((p: any) =>
+      (selectedCategory === 'all' || p.category_id === selectedCategory) &&
+      (p.name.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase()))
+    );
 
-  const fetchProducts = async () => {
-    if (!isSupabaseConfigured()) {
-      console.warn('Supabase not configured. Using mock product data.');
-      setProducts(mockProducts);
-      setLoading(false);
-      return;
-    }
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
+      <div className="max-w-7xl mx-auto px-4">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-2 text-center tracking-tight">Todos os Produtos</h1>
+        <p className="text-lg text-blue-800 mb-8 text-center">Encontre o tapete perfeito para seu ambiente</p>
 
-    try {
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          category:categories(*)
-        `)
-        .order('created_at', { ascending: false });
+        {/* Filtros modernos */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+          <div className="flex gap-2 w-full md:w-auto">
+            <input
+              type="text"
+              placeholder="Buscar por nome ou descrição..."
+              className="px-4 py-3 rounded-xl border border-blue-200 focus:ring-2 focus:ring-blue-400 outline-none w-full md:w-80 bg-white shadow-sm"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <span className="inline-flex items-center px-3 text-blue-400"><Search className="h-5 w-5" /></span>
+          </div>
+          <div className="flex gap-2 overflow-x-auto w-full md:w-auto">
+            <button
+              className={`px-5 py-2 rounded-xl font-semibold border transition-all whitespace-nowrap ${selectedCategory === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-50'}`}
+              onClick={() => setSelectedCategory('all')}
+            >
+              Todos
+            </button>
+            {categories?.map((cat: any) => (
+              <button
+                key={cat.id}
+                className={`px-5 py-2 rounded-xl font-semibold border transition-all whitespace-nowrap ${selectedCategory === cat.id ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border-blue-600 hover:bg-blue-50'}`}
+                onClick={() => setSelectedCategory(cat.id)}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      if (error) throw error;
-      setProducts(data || []);
-    } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
-      setProducts(mockProducts);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchCategories = async () => {
-    if (!isSupabaseConfigured()) {
-      console.warn('Supabase not configured. Using mock category data.');
-      setCategories(mockCategories);
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*')
-        .order('name');
-
-      if (error) throw error;
-      setCategories(data || []);
-    } catch (error) {
-      console.error('Erro ao buscar categorias:', error);
-      setCategories(mockCategories);
-    }
-  };
-
-  const applyFilters = (productsToFilter: Product[]) => {
-    let filtered = [...productsToFilter];
-
-    // Filtro de busca
-    if (filters.search) {
-      filtered = filtered.filter(product =>
+        {/* Grid de produtos */}
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-24">
+            <p className="text-blue-700 text-lg">Nenhum produto encontrado.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {filteredProducts.map((product: any) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
         product.name.toLowerCase().includes(filters.search.toLowerCase()) ||
         product.description.toLowerCase().includes(filters.search.toLowerCase())
       );
