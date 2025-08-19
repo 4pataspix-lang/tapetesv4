@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { mockProducts, mockCategories } from '../lib/mockData';
 
 interface StoreSettings {
   id: string;
@@ -463,8 +464,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const fetchProducts = async () => {
     if (!isSupabaseConfigured()) {
-      setProducts([]);
-      console.error('❌ Supabase não está configurado. Produtos não serão carregados.');
+      setProducts(mockProducts);
+      console.warn('⚠️ Supabase não está configurado. Exibindo produtos de demonstração.');
       return;
     }
     try {
@@ -473,21 +474,24 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .select('*');
       if (error) {
         console.error('❌ Erro ao buscar produtos:', error.message);
-        setProducts([]);
-      } else if (data) {
+        setProducts(mockProducts);
+      } else if (data && data.length > 0) {
         setProducts(data);
+      } else {
+        setProducts(mockProducts);
+        console.warn('⚠️ Nenhum produto encontrado no Supabase. Exibindo produtos de demonstração.');
       }
     } catch (err) {
       console.error('❌ Erro inesperado ao buscar produtos:', err);
-      setProducts([]);
+      setProducts(mockProducts);
     }
   };
 
 
   const fetchCategories = async () => {
     if (!isSupabaseConfigured()) {
-      setCategories([]);
-      console.error('❌ Supabase não está configurado. Categorias não serão carregadas.');
+      setCategories(mockCategories);
+      console.warn('⚠️ Supabase não está configurado. Exibindo categorias de demonstração.');
       return;
     }
     try {
@@ -496,13 +500,16 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .select('*');
       if (error) {
         console.error('❌ Erro ao buscar categorias:', error.message);
-        setCategories([]);
-      } else if (data) {
+        setCategories(mockCategories);
+      } else if (data && data.length > 0) {
         setCategories(data);
+      } else {
+        setCategories(mockCategories);
+        console.warn('⚠️ Nenhuma categoria encontrada no Supabase. Exibindo categorias de demonstração.');
       }
     } catch (err) {
       console.error('❌ Erro inesperado ao buscar categorias:', err);
-      setCategories([]);
+      setCategories(mockCategories);
     }
   };
 
