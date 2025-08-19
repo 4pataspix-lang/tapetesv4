@@ -13,16 +13,11 @@ export const Header: React.FC = () => {
     <>
       {/* Banner Personalizado */}
       {settings?.header_banner_url && (
-        <div className="w-full overflow-hidden">
+        <div className="w-full flex justify-center items-center bg-white px-2 py-1" style={{overflow: 'hidden'}}>
           <img
             src={settings.header_banner_url}
             alt="Banner do header"
-            className="header-banner w-full h-auto object-contain md:object-cover mx-auto"
-            style={{ 
-              maxHeight: '80px', 
-              minHeight: '30px',
-              objectPosition: 'center'
-            }}
+            className="header-banner"
           />
         </div>
       )}
