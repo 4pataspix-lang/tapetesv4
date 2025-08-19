@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../contexts/StoreContext';
 
+export const Products: React.FC = () => {
   const { products, categories, loading } = useStore();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -10,6 +11,7 @@ import { useStore } from '../contexts/StoreContext';
     (selectedCategory === 'all' || p.category_id === selectedCategory) &&
     (p.name.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase()))
   );
+}
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-blue-700 text-xl">Carregando produtos...</div>;
@@ -65,4 +67,3 @@ import { useStore } from '../contexts/StoreContext';
       </div>
     </div>
   );
-};
