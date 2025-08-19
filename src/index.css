@@ -1,0 +1,521 @@
+/* Banner do header responsivo */
+.header-banner {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .header-banner {
+    height: auto;
+    max-height: 60px;
+    object-position: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-banner {
+    max-height: 50px;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #3b82f6;
+  --secondary-color: #10b981;
+  --accent-color: #f59e0b;
+  --background-color: #f9fafb;
+  --text-color: #111827;
+  --font-family: 'Roboto';
+  --heading-font: 'Montserrat';
+}
+
+* {
+  font-family: var(--font-family), sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font), sans-serif;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Dark mode */
+body.dark {
+  --background-color: #1f2937;
+  --text-color: #f9fafb;
+}
+
+body.dark .bg-white {
+  background-color: #374151 !important;
+}
+
+body.dark .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+body.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+body.dark .border-gray-200 {
+  border-color: #4b5563 !important;
+}
+
+/* Estilos personalizáveis usando variáveis CSS */
+.btn-primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--button-primary-hover-bg);
+  color: var(--button-primary-hover-text);
+  transform: scale(var(--button-hover-scale));
+}
+
+.btn-secondary {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--button-secondary-hover-bg);
+  color: var(--button-secondary-hover-text);
+  transform: scale(var(--button-hover-scale));
+}
+
+.btn-success {
+  background-color: var(--button-success-bg);
+  color: var(--button-success-text);
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.btn-success:hover {
+  background-color: var(--button-success-hover-bg);
+  color: var(--button-success-hover-text);
+  transform: scale(var(--button-hover-scale));
+}
+
+.btn-danger {
+  background-color: var(--button-danger-bg);
+  color: var(--button-danger-text);
+  border-color: var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.btn-danger:hover {
+  background-color: var(--button-danger-hover-bg);
+  color: var(--button-danger-hover-text);
+  transform: scale(var(--button-hover-scale));
+}
+
+.custom-card {
+  background-color: var(--card-background-color);
+  border-color: var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.custom-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  transform: scale(var(--card-hover-scale));
+}
+
+.custom-input {
+  background-color: var(--input-background-color);
+  border-color: var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  transition: all var(--hover-transition-duration) ease;
+}
+
+.custom-input:focus {
+  border-color: var(--input-focus-border-color);
+}
+
+.product-title {
+  color: var(--product-title-color);
+  font-size: var(--product-title-font-size);
+  font-weight: var(--product-title-font-weight);
+}
+
+.product-description {
+  color: var(--product-description-color);
+  font-size: var(--product-description-font-size);
+  font-weight: var(--product-description-font-weight);
+}
+
+.product-price {
+  color: var(--product-price-color);
+  font-size: var(--product-price-font-size);
+  font-weight: var(--product-price-font-weight);
+}
+
+.custom-link {
+  color: var(--link-color);
+  transition: color var(--hover-transition-duration) ease;
+}
+
+.custom-link:hover {
+  color: var(--link-hover-color);
+}
+
+.cart-icon {
+  color: var(--cart-icon-color);
+}
+
+.star-icon {
+  color: var(--star-icon-color);
+}
+
+.search-icon {
+  color: var(--search-icon-color);
+}
+
+.menu-icon {
+  color: var(--menu-icon-color);
+}
+
+.social-icon {
+  color: var(--social-icon-color);
+  transition: color var(--hover-transition-duration) ease;
+}
+
+.social-icon:hover {
+  color: var(--social-icon-hover-color);
+}
+
+.nav-link {
+  color: var(--nav-link-color);
+  transition: color var(--hover-transition-duration) ease;
+}
+
+.nav-link:hover {
+  color: var(--nav-link-hover-color);
+}
+
+.nav-link.active {
+  color: var(--nav-link-active-color);
+}
+
+.success-message {
+  color: var(--success-color);
+}
+
+.error-message {
+  color: var(--error-color);
+}
+
+.warning-message {
+  color: var(--warning-color);
+}
+
+.info-message {
+  color: var(--info-color);
+}
+
+/* Estilos para scroll lateral de produtos */
+.product-section {
+  margin-bottom: 2rem;
+}
+
+.product-line {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.product-line::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+.product-card-wrapper {
+  flex: 0 0 auto;
+  width: 300px;
+}
+
+.product-card-wrapper-wide {
+  flex: 0 0 auto;
+  width: 340px;
+}
+
+.scroll-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+}
+
+.scroll-button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Estilos para categorias responsivas */
+.categories-container {
+  position: relative;
+}
+
+.categories-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.categories-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.category-button {
+  flex: 0 0 auto;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.category-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividade para mobile */
+@media (max-width: 768px) {
+  .product-card-wrapper {
+    width: 260px;
+  }
+  
+  .product-card-wrapper-wide {
+    width: 280px;
+  }
+  
+  .scroll-button {
+    display: none; /* Ocultar botões de scroll no mobile */
+  }
+  
+  .category-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .product-line {
+    gap: 0.75rem;
+  }
+  
+  .categories-scroll {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card-wrapper {
+    width: 240px;
+  }
+  
+  .product-card-wrapper-wide {
+    width: 260px;
+  }
+  
+  .category-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Melhorias específicas para mobile */
+@media (max-width: 640px) {
+  .hero-content {
+    padding: 1.5rem 1rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.875rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-content p {
+    font-size: 0.875rem !important;
+    margin-bottom: 1rem;
+  }
+  
+  .product-line {
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+  }
+  
+  .categories-scroll {
+    gap: 0.25rem;
+    padding: 0.25rem 0;
+  }
+  
+  .category-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    min-width: auto;
+  }
+}
+
+/* Melhorias para tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .product-card-wrapper {
+    width: 280px;
+  }
+  
+  .product-card-wrapper-wide {
+    width: 300px;
+  }
+}
+
+/* Cards mais responsivos */
+.custom-card {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px) {
+  .custom-card {
+    min-height: 280px;
+  }
+  
+  .product-title {
+    font-size: 0.875rem !important;
+    line-height: 1.2;
+  }
+  
+  .product-description {
+    font-size: 0.75rem !important;
+    line-height: 1.3;
+  }
+  
+  .product-price {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* Garantir que as cores personalizadas sejam aplicadas em todas as páginas */
+.product-price,
+.price-display,
+.text-price {
+  color: var(--product-price-color) !important;
+}
+
+.product-title,
+.title-display,
+.text-title {
+  color: var(--product-title-color) !important;
+}
+
+.product-description,
+.description-display,
+.text-description {
+  color: var(--product-description-color) !important;
+}
+
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Banner responsivo e centralizado */
+.hero-banner {
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .hero-banner {
+    background-attachment: scroll;
+  }
+}
+
+/* Garantir centralização em todos os dispositivos */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 60vh;
+}
+
+@media (max-width: 640px) {
+  .hero-content {
+    min-height: 50vh;
+    padding: 2rem 1rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+  
+  .hero-content p {
+    font-size: 1rem !important;
+  }
+}

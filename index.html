@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore - Loja Online Completa</title>
+    <meta name="description" content="TechStore - Os melhores produtos com qualidade garantida. Loja online completa com painel administrativo.">
+    <meta name="keywords" content="loja online, produtos, qualidade, tecnologia, e-commerce">
+    <meta name="author" content="TechStore">
+    <meta name="robots" content="index,follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TechStore - Loja Online Completa">
+    <meta property="og:description" content="TechStore - Os melhores produtos com qualidade garantida. Loja online completa com painel administrativo.">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TechStore - Loja Online Completa">
+    <meta name="twitter:description" content="TechStore - Os melhores produtos com qualidade garantida. Loja online completa com painel administrativo.">
+    <meta name="twitter:image" content="">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Nunito:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@300;400;700&family=Oswald:wght@300;400;500;600;700&family=Ubuntu:wght@300;400;500;700&family=Fira+Sans:wght@300;400;500;600&family=Work+Sans:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Lexend:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* CSS crítico para evitar flash de conteúdo não estilizado */
+      :root {
+        --primary-color: #3b82f6;
+        --secondary-color: #10b981;
+        --accent-color: #f59e0b;
+        --background-color: #f9fafb;
+        --text-color: #111827;
+        --font-family: 'Roboto';
+        --heading-font: 'Montserrat';
+        --product-title-color: #111827;
+        --product-description-color: #6b7280;
+        --product-price-color: #3b82f6;
+      }
+      
+      body {
+        font-family: var(--font-family), sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--heading-font), sans-serif;
+      }
+      
+      /* Evitar flash de conteúdo */
+      .loading-placeholder {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--background-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
