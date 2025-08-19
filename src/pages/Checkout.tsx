@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Stepper from '../components/Stepper';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, MapPin, User, Calendar, Lock } from 'lucide-react';
+import { CreditCard, MapPin, User } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { createPayment, createCardToken, validateCPF, formatCPF, formatPhone } from '../lib/nivusPay';
+import { createPayment, validateCPF, formatCPF, formatPhone } from '../lib/nivusPay';
 
 export const Checkout: React.FC = () => {
   const steps = ['Dados', 'Entrega', 'Pagamento', 'Confirmação'];
@@ -12,7 +12,6 @@ export const Checkout: React.FC = () => {
   const { items, total, clearCart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [showCardForm, setShowCardForm] = useState(false);
   const [formData, setFormData] = useState({
     customerName: '',
     customerEmail: '',
@@ -29,14 +28,7 @@ export const Checkout: React.FC = () => {
     paymentMethod: 'PIX',
   });
   
-  const [cardData, setCardData] = useState({
-    cardNumber: '',
-    cardCvv: '',
-    cardExpirationMonth: '',
-    cardExpirationYear: '',
-    holderName: '',
-    installments: 1,
-  });
+  // Removed unused cardData and setCardData
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -60,9 +52,6 @@ export const Checkout: React.FC = () => {
       return;
     }
     
-    if (name === 'paymentMethod') {
-      setShowCardForm(value === 'CREDIT_CARD');
-    }
     
     setFormData({
       ...formData,
@@ -70,21 +59,7 @@ export const Checkout: React.FC = () => {
     });
   };
   
-  const handleCardInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    
-    // Formatação do número do cartão
-    if (name === 'cardNumber') {
-      const formatted = value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-      setCardData({ ...cardData, [name]: formatted });
-      return;
-    }
-    
-    setCardData({
-      ...cardData,
-      [name]: value,
-    });
-  };
+  // Removed unused handleCardInputChange
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,25 +148,7 @@ export const Checkout: React.FC = () => {
       let creditCardToken = undefined;
       
       // Se for cartão de crédito, criar token primeiro
-      if (formData.paymentMethod === 'CREDIT_CARD') {
-        console.log('🔐 Criando token do cartão...');
-        
-        const tokenResult = await createCardToken({
-          cardNumber: cardData.cardNumber.replace(/\s/g, ''),
-          cardCvv: cardData.cardCvv,
-          cardExpirationMonth: cardData.cardExpirationMonth,
-          cardExpirationYear: cardData.cardExpirationYear,
-          holderName: cardData.holderName || formData.customerName,
-          holderDocument: formData.customerCpf.replace(/\D/g, ''),
-        });
-        
-        if (!tokenResult.success) {
-          throw new Error(tokenResult.error || 'Erro ao processar dados do cartão');
-        }
-        
-        creditCardToken = tokenResult.token;
-        console.log('✅ Token do cartão criado');
-      }
+  // Fluxo de cartão de crédito removido
       
       const paymentData = {
         amount: total,
@@ -203,7 +160,7 @@ export const Checkout: React.FC = () => {
         items: items,
         paymentMethod: formData.paymentMethod as 'PIX' | 'CREDIT_CARD' | 'BILLET',
         creditCardToken,
-        installments: cardData.installments,
+  // installments removido
       };
 
       const paymentResult = await createPayment(paymentData);
@@ -242,9 +199,7 @@ export const Checkout: React.FC = () => {
           });
         } else {
           // Para outros métodos, ir direto para página de obrigado
-          navigate('/thank-you', {
-            search: `?orderId=${orderData.id}&paymentId=${paymentResult.paymentId}`
-          });
+          navigate('/thank-you');
         }
         return;
       } else {

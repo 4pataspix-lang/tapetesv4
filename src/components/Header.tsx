@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Search, Store, Phone, Mail, Truck, Shield, Clock } from 'lucide-react';
+import { ShoppingCart, Search, Store } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useStore } from '../contexts/StoreContext';
 
