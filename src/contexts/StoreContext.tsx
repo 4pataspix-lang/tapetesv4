@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { mockProducts, mockCategories } from '../lib/mockData';
+import { supabase, StoreSettings, isSupabaseConfigured } from '../lib/supabase';
 
 interface StoreSettings {
   id: string;
@@ -149,7 +148,11 @@ interface StoreSettings {
   maintenance_mode: boolean;
   
   // SEO
-    // Removido duplicatas
+  meta_title: string;
+  meta_description: string;
+  meta_keywords: string;
+  google_analytics_id: string;
+  facebook_pixel_id: string;
   
   // Contato
   contact_email: string;
@@ -236,8 +239,6 @@ interface StoreContextType {
   settings: StoreSettings | null;
   loading: boolean;
   refreshSettings: () => Promise<void>;
-  products: any[];
-  categories: any[];
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -376,6 +377,7 @@ const defaultSettings: StoreSettings = {
 
   font_family: 'Roboto',
   heading_font: 'Montserrat',
+  heading_font: 'Montserrat',
   currency: 'BRL',
   currency_symbol: 'R$',
   language: 'pt-BR',
@@ -386,9 +388,11 @@ const defaultSettings: StoreSettings = {
   enable_compare: true,
   enable_chat: false,
   maintenance_mode: false,
-  // meta_title, meta_description, meta_keywords duplicados removidos
-  // google_analytics_id duplicado removido
-  // facebook_pixel_id duplicado removido
+  meta_title: '',
+  meta_description: '',
+  meta_keywords: '',
+  google_analytics_id: '',
+  facebook_pixel_id: '',
   contact_email: '',
   contact_phone: '',
   contact_whatsapp: '',
@@ -459,67 +463,14 @@ const defaultSettings: StoreSettings = {
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<StoreSettings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-
-  const fetchProducts = async () => {
-    if (!isSupabaseConfigured()) {
-      setProducts(mockProducts);
-      console.warn('⚠️ Supabase não está configurado. Exibindo produtos de demonstração.');
-      return;
-    }
-    try {
-      const { data, error } = await supabase!
-        .from('products')
-        .select('*');
-      if (error) {
-        console.error('❌ Erro ao buscar produtos:', error.message);
-        setProducts(mockProducts);
-      } else if (data && data.length > 0) {
-        setProducts(data);
-      } else {
-        setProducts(mockProducts);
-        console.warn('⚠️ Nenhum produto encontrado no Supabase. Exibindo produtos de demonstração.');
-      }
-    } catch (err) {
-      console.error('❌ Erro inesperado ao buscar produtos:', err);
-      setProducts(mockProducts);
-    }
-  };
-
-
-  const fetchCategories = async () => {
-    if (!isSupabaseConfigured()) {
-      setCategories(mockCategories);
-      console.warn('⚠️ Supabase não está configurado. Exibindo categorias de demonstração.');
-      return;
-    }
-    try {
-      const { data, error } = await supabase!
-        .from('categories')
-        .select('*');
-      if (error) {
-        console.error('❌ Erro ao buscar categorias:', error.message);
-        setCategories(mockCategories);
-      } else if (data && data.length > 0) {
-        setCategories(data);
-      } else {
-        setCategories(mockCategories);
-        console.warn('⚠️ Nenhuma categoria encontrada no Supabase. Exibindo categorias de demonstração.');
-      }
-    } catch (err) {
-      console.error('❌ Erro inesperado ao buscar categorias:', err);
-      setCategories(mockCategories);
-    }
-  };
 
   const fetchSettings = async () => {
     // Se Supabase não estiver configurado, usar configurações padrão
     if (!isSupabaseConfigured()) {
+      console.warn('Supabase not configured. Using default settings.');
       setSettings(defaultSettings);
       applyThemeSettings(defaultSettings);
       setLoading(false);
-      console.error('❌ Supabase não está configurado. Configurações padrão serão usadas.');
       return;
     }
 
@@ -531,7 +482,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .limit(1);
 
       if (error && error.code !== 'PGRST116') {
-        console.error('❌ Erro ao buscar configurações:', error.message);
+        console.warn('❌ Erro ao buscar configurações:', error.message);
         setSettings(defaultSettings);
         applyThemeSettings(defaultSettings);
       } else if (data && data.length > 0) {
@@ -539,12 +490,12 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setSettings(data[0]);
         applyThemeSettings(data[0]);
       } else {
-        console.warn('📋 Nenhuma configuração encontrada, usando padrão');
+        console.log('📋 Nenhuma configuração encontrada, usando padrão');
         setSettings(defaultSettings);
         applyThemeSettings(defaultSettings);
       }
     } catch (error) {
-      console.error('❌ Erro inesperado ao buscar configurações:', error);
+      console.error('❌ Erro ao buscar configurações:', error);
       setSettings(defaultSettings);
       applyThemeSettings(defaultSettings);
     } finally {
@@ -949,9 +900,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       applyThemeSettings(settings);
     }
     
-  fetchSettings();
-  fetchProducts();
-  fetchCategories();
+    fetchSettings();
 
     // Escutar mudanças em tempo real apenas se Supabase estiver configurado
     if (isSupabaseConfigured()) {
@@ -972,11 +921,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [settings]);
 
   const value = {
-  settings,
-  loading,
-  refreshSettings,
-  products,
-  categories,
+    settings,
+    loading,
+    refreshSettings,
   };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

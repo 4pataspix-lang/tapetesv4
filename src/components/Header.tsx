@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Search, Store } from 'lucide-react';
+import { ShoppingCart, Search, Store, Phone, Mail, Truck, Shield, Clock } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useStore } from '../contexts/StoreContext';
 
@@ -13,11 +13,16 @@ export const Header: React.FC = () => {
     <>
       {/* Banner Personalizado */}
       {settings?.header_banner_url && (
-        <div className="w-full flex justify-center items-center bg-white py-1 banner-outer" style={{overflow: 'hidden', padding: 0, margin: 0}}>
+        <div className="w-full overflow-hidden">
           <img
             src={settings.header_banner_url}
             alt="Banner do header"
-            className="header-banner"
+            className="header-banner w-full h-auto object-contain md:object-cover mx-auto"
+            style={{ 
+              maxHeight: '80px', 
+              minHeight: '30px',
+              objectPosition: 'center'
+            }}
           />
         </div>
       )}
