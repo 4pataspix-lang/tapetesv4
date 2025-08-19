@@ -122,18 +122,18 @@ export const ProductPage: React.FC = () => {
             {/* Imagem do Produto */}
             <div className="space-y-4">
               {/* Layout: Imagem grande à esquerda, 2 pequenas à direita */}
-              <div className="flex space-x-4">
+              <div className="flex flex-row gap-4 md:gap-6">
                 {/* Imagem Principal Grande */}
-                <div className="flex-1">
+                <div className="flex-shrink-0 flex-grow-0 basis-2/3 md:basis-3/4 max-w-[70%] flex items-center justify-center">
                   <img
                     src={selectedImage}
                     alt={product.name}
-                    className="w-full h-96 object-cover rounded-lg shadow-lg"
+                    className="max-h-[420px] w-full object-contain rounded-lg shadow-lg bg-white"
+                    style={{ background: '#fff' }}
                   />
                 </div>
-                
                 {/* Imagens Pequenas Empilhadas */}
-                <div className="flex flex-col space-y-2 w-32">
+                <div className="flex flex-col gap-3 flex-shrink-0 flex-grow-0 basis-1/3 md:basis-1/4 max-w-[30%] min-w-[80px]">
                   <button
                     onClick={() => setSelectedImage(product.image_url)}
                     className={`w-full h-24 rounded-lg overflow-hidden border-2 transition-all hover:scale-105 ${
