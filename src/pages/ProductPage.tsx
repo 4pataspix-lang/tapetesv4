@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ImageModal from '../components/ImageModal';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Star, ShoppingCart, Plus, Minus } from 'lucide-react';
 import { supabase, Product, Review, isSupabaseConfigured } from '../lib/supabase';
@@ -16,6 +17,7 @@ export const ProductPage: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -124,14 +126,29 @@ export const ProductPage: React.FC = () => {
               {/* Layout: Imagem grande à esquerda, 2 pequenas à direita */}
               <div className="flex flex-row gap-4 md:gap-6">
                 {/* Imagem Principal Grande */}
-                <div className="flex-shrink-0 flex-grow-0 basis-2/3 md:basis-3/4 max-w-[70%] flex items-center justify-center">
+                <div className="flex-shrink-0 flex-grow-0 basis-2/3 md:basis-3/4 max-w-[70%] flex items-center justify-center relative group cursor-zoom-in">
                   <img
                     src={selectedImage}
                     alt={product.name}
-                    className="max-h-[420px] w-full object-contain rounded-lg shadow-lg bg-white"
+                    className="max-h-[420px] w-full object-contain rounded-lg shadow-lg bg-white transition duration-200 group-hover:opacity-90"
                     style={{ background: '#fff' }}
+                    onClick={() => setModalOpen(true)}
                   />
+                  {/* Indicador de zoom */}
+                  <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 rounded-full p-2 flex items-center justify-center pointer-events-none group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                  </div>
                 </div>
+      {/* Modal de Imagem Ampliada */}
+      <ImageModal
+        src={selectedImage}
+        alt={product?.name || ''}
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
                 {/* Imagens Pequenas Empilhadas */}
                 <div className="flex flex-col gap-3 flex-shrink-0 flex-grow-0 basis-1/3 md:basis-1/4 max-w-[30%] min-w-[80px]">
                   <button
