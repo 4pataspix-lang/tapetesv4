@@ -148,11 +148,7 @@ interface StoreSettings {
   maintenance_mode: boolean;
   
   // SEO
-  meta_title: string;
-  meta_description: string;
-  meta_keywords: string;
-  google_analytics_id: string;
-  facebook_pixel_id: string;
+    // Removido duplicatas
   
   // Contato
   contact_email: string;
@@ -377,7 +373,6 @@ const defaultSettings: StoreSettings = {
 
   font_family: 'Roboto',
   heading_font: 'Montserrat',
-  heading_font: 'Montserrat',
   currency: 'BRL',
   currency_symbol: 'R$',
   language: 'pt-BR',
@@ -388,11 +383,9 @@ const defaultSettings: StoreSettings = {
   enable_compare: true,
   enable_chat: false,
   maintenance_mode: false,
-  meta_title: '',
-  meta_description: '',
-  meta_keywords: '',
-  google_analytics_id: '',
-  facebook_pixel_id: '',
+  // meta_title, meta_description, meta_keywords duplicados removidos
+  // google_analytics_id duplicado removido
+  // facebook_pixel_id duplicado removido
   contact_email: '',
   contact_phone: '',
   contact_whatsapp: '',
