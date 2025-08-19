@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Award, Zap, Heart, Star, Phone } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
-import { useStore } from '../contexts/StoreContext';
+// import { useStore } from '../contexts/StoreContext';
+import { mockProducts } from '../lib/mockData';
 
 export const Home: React.FC = () => {
-  const { settings, products } = useStore();
+  // const { settings } = useStore();
+  const products = mockProducts;
   // Exibe apenas produtos em destaque
-  const filteredProducts = products?.filter((p: any) => p.featured) || [];
+  const filteredProducts = products.filter((product: any) => product.stock_quantity > 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
