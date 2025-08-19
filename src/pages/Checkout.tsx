@@ -495,7 +495,8 @@ export const Checkout: React.FC = () => {
                     <h3 className="text-lg font-semibold text-gray-900">Método de Pagamento</h3>
                   </div>
                   
-                  <div className="space-y-3">
+                  <div className="space-y-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* PIX */}
                     <div 
                       className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
                         formData.paymentMethod === 'PIX' 
@@ -525,28 +526,74 @@ export const Checkout: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                    {/* Cartão de Crédito */}
+                    <div 
+                      className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                        formData.paymentMethod === 'CREDIT_CARD' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                      onClick={() => setFormData({ ...formData, paymentMethod: 'CREDIT_CARD' })}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-12 h-8 bg-gradient-to-r from-blue-500 to-blue-800 rounded flex items-center justify-center">
+                            <CreditCard className="h-5 w-5 text-white" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Cartão de Crédito</h4>
+                            <p className="text-sm text-gray-600">Pague em até 12x</p>
+                          </div>
+                        </div>
+                        <div className={`w-5 h-5 rounded-full border-2 ${
+                          formData.paymentMethod === 'CREDIT_CARD' 
+                            ? 'border-blue-500 bg-blue-500' 
+                            : 'border-gray-300'
+                        }`}>
+                          {formData.paymentMethod === 'CREDIT_CARD' && (
+                            <div className="w-full h-full rounded-full bg-white scale-50"></div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   
                   {/* Informações sobre o método de pagamento */}
-                  <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-medium text-green-800">Vantagens do PIX</span>
+                  {formData.paymentMethod === 'PIX' && (
+                    <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-sm font-medium text-green-800">Vantagens do PIX</span>
+                      </div>
+                      <ul className="text-sm text-green-700 space-y-1">
+                        <li>• Pagamento instantâneo 24h por dia</li>
+                        <li>• Sem taxas adicionais</li>
+                        <li>• Frete grátis para todo Brasil</li>
+                        <li>• Confirmação imediata</li>
+                        <li>• Seguro e prático</li>
+                      </ul>
                     </div>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• Pagamento instantâneo 24h por dia</li>
-                      <li>• Sem taxas adicionais</li>
-                     <li>• Frete grátis para todo Brasil</li>
-                      <li>• Confirmação imediata</li>
-                      <li>• Seguro e prático</li>
-                    </ul>
-                  </div>
+                  )}
+                  {formData.paymentMethod === 'CREDIT_CARD' && (
+                    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span className="text-sm font-medium text-blue-800">Vantagens do Cartão de Crédito</span>
+                      </div>
+                      <ul className="text-sm text-blue-700 space-y-1">
+                        <li>• Pague em até 12x</li>
+                        <li>• Processamento seguro</li>
+                        <li>• Aprovação rápida</li>
+                        <li>• Aceita as principais bandeiras</li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5`}
                 >
                   {loading ? (
                     <>
@@ -555,10 +602,21 @@ export const Checkout: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <div className="w-6 h-4 bg-gradient-to-r from-green-400 to-blue-400 rounded flex items-center justify-center mr-2">
-                        <span className="text-white font-bold text-xs">PIX</span>
-                      </div>
-                      <span className="font-semibold">Finalizar Pedido com PIX</span>
+                      {formData.paymentMethod === 'PIX' ? (
+                        <>
+                          <div className="w-6 h-4 bg-gradient-to-r from-green-400 to-blue-400 rounded flex items-center justify-center mr-2">
+                            <span className="text-white font-bold text-xs">PIX</span>
+                          </div>
+                          <span className="font-semibold">Finalizar Pedido com PIX</span>
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-6 h-4 bg-gradient-to-r from-blue-500 to-blue-800 rounded flex items-center justify-center mr-2">
+                            <CreditCard className="h-4 w-4 text-white" />
+                          </div>
+                          <span className="font-semibold">Finalizar Pedido com Cartão</span>
+                        </>
+                      )}
                     </>
                   )}
                 </button>
