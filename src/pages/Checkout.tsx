@@ -347,13 +347,13 @@ export const Checkout: React.FC = () => {
 
                 {/* Step 4: Confirmação */}
                 {currentStep === 3 && (
-                  <div className="animate-fade-in text-center">
-                    <div className="flex flex-col items-center justify-center mb-6">
-                      <svg className="w-16 h-16 text-green-500 mb-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                      <h3 className="text-2xl font-bold text-green-700 mb-2">Pedido pronto para finalizar!</h3>
-                      <p className="text-blue-900 mb-4">Confira seus dados e clique para concluir seu pedido.</p>
+                  <div className="animate-fade-in text-center max-w-md mx-auto p-4 bg-white rounded-xl shadow border border-blue-100">
+                    <div className="flex flex-col items-center justify-center mb-4">
+                      <svg className="w-12 h-12 text-green-500 mb-2 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                      <h3 className="text-xl font-bold text-green-700 mb-1">Pedido pronto!</h3>
+                      <p className="text-blue-900 text-sm mb-2">Confira seus dados e clique para concluir.</p>
                     </div>
-                    <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-green-400 to-blue-600 text-white py-4 px-6 rounded-xl hover:from-green-500 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-lg font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-green-400 to-blue-600 text-white py-3 px-4 rounded-lg hover:from-green-500 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base font-bold shadow-lg hover:shadow-xl">
                       {loading ? 'Processando...' : 'Finalizar Pedido'}
                     </button>
                   </div>

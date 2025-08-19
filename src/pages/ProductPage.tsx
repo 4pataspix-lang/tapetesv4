@@ -117,16 +117,16 @@ export const ProductPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100 animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 p-8">
             {/* Imagem do Produto */}
             <div className="space-y-4">
               {/* Layout: Imagem grande à esquerda, 2 pequenas à direita */}
               <div className="flex flex-row gap-4 md:gap-6">
                 {/* Imagem Principal Grande */}
-                <div className="flex-shrink-0 flex-grow-0 basis-2/3 md:basis-3/4 max-w-[70%] flex items-center justify-center relative group cursor-zoom-in">
+                <div className="flex-shrink-0 flex-grow-0 basis-2/3 md:basis-3/4 max-w-[70%] flex items-center justify-center relative group cursor-zoom-in bg-blue-50 rounded-xl p-2">
                   <img
                     src={selectedImage}
                     alt={product.name}
@@ -200,56 +200,46 @@ export const ProductPage: React.FC = () => {
             </div>
 
             {/* Detalhes do Produto */}
+
             <div className="space-y-6">
               <div>
-                <h1 className="product-title text-3xl mb-2">
-                  {product.name}
-                </h1>
-                
+                <h1 className="text-3xl font-extrabold text-blue-900 mb-2 tracking-tight">{product.name}</h1>
                 <div className="flex items-center space-x-2 mb-4">
                   <div className="flex">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
-                        className={`h-5 w-5 ${
-                          star <= averageRating
-                            ? 'fill-yellow-400 text-yellow-400'
-                            : 'text-gray-300'
-                        }`}
+                        className={`h-5 w-5 ${star <= averageRating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
                       />
                     ))}
                   </div>
-                  <span className="text-gray-600">
-                    {averageRating.toFixed(1)} ({reviews.length} avaliações)
-                  </span>
+                  <span className="text-sm text-blue-700">{averageRating.toFixed(1)} ({reviews.length} avaliações)</span>
                 </div>
-
-                <div className="mb-6">
-                  <span className="product-price text-4xl">
-                    R$ {product.price.toFixed(2).replace('.', ',')}
-                  </span>
-                </div>
+                <p className="text-2xl font-bold text-green-600 mb-4 drop-shadow">R$ {product.price.toFixed(2).replace('.', ',')}</p>
+                <p className="text-base text-blue-900 bg-blue-50 rounded-lg px-4 py-2 mb-6 shadow-sm">{product.description}</p>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <span className="text-green-600">✓ Em estoque</span>
-                <span className="text-gray-500">({product.stock_quantity} unidades)</span>
+
+              <div className="flex items-center gap-2">
+                <span className="text-green-600 font-semibold bg-green-50 rounded px-3 py-1">✓ Em estoque</span>
+                <span className="text-blue-700 text-xs">({product.stock_quantity} unidades)</span>
               </div>
 
               {/* Controle de Quantidade */}
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700 font-medium">Quantidade:</span>
-                <div className="flex items-center border rounded-lg">
+
+              <div className="flex items-center gap-4">
+                <span className="text-blue-900 font-medium">Quantidade:</span>
+                <div className="flex items-center border-2 border-blue-100 rounded-xl bg-blue-50">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 hover:bg-gray-100 transition-colors"
+                    className="p-2 hover:bg-blue-100 transition-colors rounded-l-xl"
                   >
                     <Minus className="h-4 w-4" />
                   </button>
-                  <span className="px-4 py-2 font-semibold">{quantity}</span>
+                  <span className="px-4 py-2 font-semibold text-blue-900 bg-white">{quantity}</span>
                   <button
                     onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
-                    className="p-2 hover:bg-gray-100 transition-colors"
+                    className="p-2 hover:bg-blue-100 transition-colors rounded-r-xl"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -257,20 +247,20 @@ export const ProductPage: React.FC = () => {
               </div>
 
               {/* Botões */}
-              <div className="space-y-3">
+
+              <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
                 <button
                   onClick={() => {
                     addToCart(product);
                     navigate('/checkout');
                   }}
-                  className="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-colors"
+                  className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all text-lg flex items-center gap-2 animate-bounce-once"
                 >
                   Comprar Agora
                 </button>
-
                 <button
                   onClick={handleAddToCart}
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                  className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 text-white font-bold py-3 px-8 rounded-xl shadow-xl transition-all text-lg flex items-center gap-2"
                 >
                   <ShoppingCart className="h-5 w-5" />
                   <span>Adicionar ao Carrinho</span>
@@ -278,9 +268,9 @@ export const ProductPage: React.FC = () => {
               </div>
 
               {/* Descrição do Produto */}
-              <div className="border-t pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Descrição do Produto</h3>
-                <p className="product-description leading-relaxed">
+              <div className="border-t pt-6 mt-6">
+                <h3 className="text-lg font-bold text-blue-900 mb-3">Descrição do Produto</h3>
+                <p className="text-base text-blue-900 leading-relaxed bg-blue-50 rounded-lg px-4 py-2 shadow-sm">
                   {product.description}
                 </p>
               </div>
