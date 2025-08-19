@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { ProductCard } from '../components/ProductCard';
-import { mockProducts, mockCategories } from '../lib/mockData';
+import { useStore } from '../contexts/StoreContext';
 
-export const Products: React.FC = () => {
-  const products = mockProducts;
-  const categories = mockCategories;
+  const { products, categories, loading } = useStore();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -13,6 +11,9 @@ export const Products: React.FC = () => {
     (p.name.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase()))
   );
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-blue-700 text-xl">Carregando produtos...</div>;
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-10">
       <div className="max-w-7xl mx-auto px-4">

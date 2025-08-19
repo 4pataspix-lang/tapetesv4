@@ -235,6 +235,8 @@ interface StoreContextType {
   settings: StoreSettings | null;
   loading: boolean;
   refreshSettings: () => Promise<void>;
+  products: any[];
+  categories: any[];
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -456,6 +458,29 @@ const defaultSettings: StoreSettings = {
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<StoreSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const fetchProducts = async () => {
+    if (!isSupabaseConfigured()) {
+      setProducts([]);
+      return;
+    }
+    const { data, error } = await supabase!
+      .from('products')
+      .select('*');
+    if (!error && data) setProducts(data);
+  };
+
+  const fetchCategories = async () => {
+    if (!isSupabaseConfigured()) {
+      setCategories([]);
+      return;
+    }
+    const { data, error } = await supabase!
+      .from('categories')
+      .select('*');
+    if (!error && data) setCategories(data);
+  };
 
   const fetchSettings = async () => {
     // Se Supabase não estiver configurado, usar configurações padrão
@@ -893,7 +918,9 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       applyThemeSettings(settings);
     }
     
-    fetchSettings();
+  fetchSettings();
+  fetchProducts();
+  fetchCategories();
 
     // Escutar mudanças em tempo real apenas se Supabase estiver configurado
     if (isSupabaseConfigured()) {
@@ -914,9 +941,11 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [settings]);
 
   const value = {
-    settings,
-    loading,
-    refreshSettings,
+  settings,
+  loading,
+  refreshSettings,
+  products,
+  categories,
   };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
