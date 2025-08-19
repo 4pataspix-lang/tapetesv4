@@ -460,35 +460,59 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+
   const fetchProducts = async () => {
     if (!isSupabaseConfigured()) {
       setProducts([]);
+      console.error('❌ Supabase não está configurado. Produtos não serão carregados.');
       return;
     }
-    const { data, error } = await supabase!
-      .from('products')
-      .select('*');
-    if (!error && data) setProducts(data);
+    try {
+      const { data, error } = await supabase!
+        .from('products')
+        .select('*');
+      if (error) {
+        console.error('❌ Erro ao buscar produtos:', error.message);
+        setProducts([]);
+      } else if (data) {
+        setProducts(data);
+      }
+    } catch (err) {
+      console.error('❌ Erro inesperado ao buscar produtos:', err);
+      setProducts([]);
+    }
   };
+
 
   const fetchCategories = async () => {
     if (!isSupabaseConfigured()) {
       setCategories([]);
+      console.error('❌ Supabase não está configurado. Categorias não serão carregadas.');
       return;
     }
-    const { data, error } = await supabase!
-      .from('categories')
-      .select('*');
-    if (!error && data) setCategories(data);
+    try {
+      const { data, error } = await supabase!
+        .from('categories')
+        .select('*');
+      if (error) {
+        console.error('❌ Erro ao buscar categorias:', error.message);
+        setCategories([]);
+      } else if (data) {
+        setCategories(data);
+      }
+    } catch (err) {
+      console.error('❌ Erro inesperado ao buscar categorias:', err);
+      setCategories([]);
+    }
   };
 
   const fetchSettings = async () => {
     // Se Supabase não estiver configurado, usar configurações padrão
     if (!isSupabaseConfigured()) {
-      console.warn('Supabase not configured. Using default settings.');
       setSettings(defaultSettings);
       applyThemeSettings(defaultSettings);
       setLoading(false);
+      console.error('❌ Supabase não está configurado. Configurações padrão serão usadas.');
       return;
     }
 
@@ -500,7 +524,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         .limit(1);
 
       if (error && error.code !== 'PGRST116') {
-        console.warn('❌ Erro ao buscar configurações:', error.message);
+        console.error('❌ Erro ao buscar configurações:', error.message);
         setSettings(defaultSettings);
         applyThemeSettings(defaultSettings);
       } else if (data && data.length > 0) {
@@ -508,12 +532,12 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setSettings(data[0]);
         applyThemeSettings(data[0]);
       } else {
-        console.log('📋 Nenhuma configuração encontrada, usando padrão');
+        console.warn('📋 Nenhuma configuração encontrada, usando padrão');
         setSettings(defaultSettings);
         applyThemeSettings(defaultSettings);
       }
     } catch (error) {
-      console.error('❌ Erro ao buscar configurações:', error);
+      console.error('❌ Erro inesperado ao buscar configurações:', error);
       setSettings(defaultSettings);
       applyThemeSettings(defaultSettings);
     } finally {
